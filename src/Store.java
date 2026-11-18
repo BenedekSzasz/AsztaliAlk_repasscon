@@ -8,43 +8,32 @@
 * Licenc: MIT
 */
 
-//Itt következik a Store osztály
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.charset.Charset;
+
 public class Store {
-    
-    /* 
-    A user adattag 
-    */
-    String a;
-    
-    /* 
-    A pass adattag 
-    */
-    String pass;
-    
-    /* 
-    A place adattag 
-    */
-    String place;
-    
-    //Konstruktor
-    public Store(String a, String pass, String place) {
-        //Előkészítjük az adattagokat
-        this.a = a;
-        this.pass = pass;
-        this.place = place;
-    }//A konstruktor vége
-    
-    //Visszaadja a jelszót
-    public String retrieval() {
-        return pass;
-    }//A retrieval vége
-    
-    //Visszaadja a helyet
-    public boolean hollow() {
-        if(this.pass == "") {
-            return true;
-        }else {
+    public static boolean saveContent(PasswordDto pass) {
+        try {
+          trySaveContent(pass);
+          return true;
+        } catch (IOException e) {
+            System.out.println("Hiba! A kiírás sikertelen");
+            e.printStackTrace();
             return false;
         }
+    }
+    
+    public static void trySaveContent(PasswordDto pass) throws IOException{
+        FileWriter fileWriter = new FileWriter(
+            "pass.txt", 
+            Charset.forName("UTF-8"), 
+            true
+        );
+        String line = pass.username + ":" + 
+        pass.password + ":" + 
+        pass.place + "\n";
+        fileWriter.write(line);
+        fileWriter.close();
     }
 }
